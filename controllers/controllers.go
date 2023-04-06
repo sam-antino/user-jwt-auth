@@ -37,3 +37,29 @@ func SignUp(c *gin.Context) {
 		Message: "user registered successfully",
 	})
 }
+
+func Login(c *gin.Context) {
+	req, err := validators.ValidateLoginReq(c)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error":   "invalid request error",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	_, err = userService.Login(c, req)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "something went wrong",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.Writer.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(c.Writer).Encode(models.SignUpRes{
+		Status:  "success",
+		Message: "user logged in successfully",
+	})
+}

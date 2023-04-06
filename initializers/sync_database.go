@@ -1,4 +1,4 @@
-package intitializers
+package initializers
 
 import (
 	"user-jwt-auth/models/entities"

@@ -9,4 +9,5 @@ import (
 
 type UserServiceInterface interface {
 	SignUp(ctx *gin.Context, req models.SignUpReq) (entities.Users, error)
+	Login(ctx *gin.Context, req models.LoginReq) (entities.Users, error)
 }
