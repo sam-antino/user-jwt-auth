@@ -14,6 +14,7 @@ import (
 type UserServiceImplementation struct{}
 
 func (u UserServiceImplementation) SignUp(ctx *gin.Context, req models.SignUpReq) (entities.Users, error) {
+	// generate hashed password
 	hashPassword, err := bcrypt.GenerateFromPassword([]byte(req.Password), 10)
 	if err != nil {
 		return entities.Users{}, errors.New("failed to hash password")
@@ -21,6 +22,7 @@ func (u UserServiceImplementation) SignUp(ctx *gin.Context, req models.SignUpReq
 
 	req.Password = string(hashPassword)
 
+	// create user (store the hashed password in DB)
 	userEntity, err := repository.CreateUser(req)
 	if err != nil {
 		if err.Error() == "duplicated key not allowed" {
