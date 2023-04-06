@@ -1,2 +1,2 @@
 # user-jwt-auth
-user authorization and user authentication using jwt
+user authentication and user authorization using jwt
