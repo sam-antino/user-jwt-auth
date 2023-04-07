@@ -10,3 +10,8 @@ type SignUpRes struct {
 	Status  string `json:"status"`
 	Message string `json:"messages"`
 }
+
+type UserDetailsRes struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}

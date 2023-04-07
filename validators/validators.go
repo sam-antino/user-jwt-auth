@@ -61,3 +61,12 @@ func ValidateLoginReq(c *gin.Context) (req models.LoginReq, err error) {
 
 	return req, nil
 }
+
+func ValidateUserDetailsReq(c *gin.Context) (string, error) {
+	email := c.Request.Header["User-Email"][0]
+	if email == "" {
+		return "", errors.New("no email passed in the headers")
+	}
+
+	return email, nil
+}

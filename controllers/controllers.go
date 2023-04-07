@@ -66,5 +66,24 @@ func LoginHandler(c *gin.Context) {
 }
 
 func UserDetailsHandler(c *gin.Context) {
+	email, err := validators.ValidateUserDetailsReq(c)
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{
+			"error":   "invalid request error",
+			"message": err.Error(),
+		})
+		return
+	}
 
+	res, err := userService.UserDetils(c, email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"error":   "something went wrong",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	c.Writer.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(c.Writer).Encode(res)
 }

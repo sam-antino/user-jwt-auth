@@ -47,7 +47,8 @@ func ReqAuthorization(c *gin.Context) {
 		}
 
 		// pass email in the header for further services
-		c.Request.Header.Add("user-email", claims["email"].(string))
+		c.Request.Header["User-Email"] = []string{claims["email"].(string)}
+		// c.Request.Header.Add("[user-email]", claims["email"].(string))
 		c.Next()
 
 	} else {
