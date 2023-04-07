@@ -12,7 +12,7 @@ import (
 
 var userService services.UserServiceInterface = services.UserServiceImplementation{}
 
-func SignUp(c *gin.Context) {
+func SignUpHandler(c *gin.Context) {
 	req, err := validators.ValidateSignUpReq(c)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -38,7 +38,7 @@ func SignUp(c *gin.Context) {
 	})
 }
 
-func Login(c *gin.Context) {
+func LoginHandler(c *gin.Context) {
 	req, err := validators.ValidateLoginReq(c)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{
@@ -63,4 +63,8 @@ func Login(c *gin.Context) {
 		Message: "user logged in successfully",
 		Token:   token,
 	})
+}
+
+func UserDetailsHandler(c *gin.Context) {
+
 }

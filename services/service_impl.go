@@ -58,7 +58,7 @@ func (u UserServiceImplementation) Login(ctx *gin.Context, req models.LoginReq) 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub":   userEntity.ID,
 		"email": userEntity.Email,
-		"exp":   time.Now().Add(time.Minute * 2).Unix(),
+		"exp":   time.Now().Add(time.Minute).Unix(), // expiry of 1 mins
 	})
 
 	// Sign and get the complete encoded token as a string using the secret
