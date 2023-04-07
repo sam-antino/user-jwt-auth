@@ -2,11 +2,14 @@ package services
 
 import (
 	"errors"
+	"os"
+	"time"
 	"user-jwt-auth/models"
 	"user-jwt-auth/models/entities"
 	"user-jwt-auth/repository"
 
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
@@ -33,23 +36,36 @@ func (u UserServiceImplementation) SignUp(ctx *gin.Context, req models.SignUpReq
 	return userEntity, nil
 }
 
-func (u UserServiceImplementation) Login(ctx *gin.Context, req models.LoginReq) (entities.Users, error) {
+func (u UserServiceImplementation) Login(ctx *gin.Context, req models.LoginReq) (string, error) {
 	// check the email exists or not
 	userEntity, err := repository.GetUser(req.Email)
 	if err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return userEntity, errors.New("invalid email")
+			return "", errors.New("invalid email")
 		}
-		return userEntity, err
+		return "", err
 	}
 
 	// check the password is correct or not
 	err = bcrypt.CompareHashAndPassword([]byte(userEntity.Password), []byte(req.Password))
 	if err != nil {
-		return userEntity, errors.New("invalid password")
+		return "", errors.New("invalid password")
 	}
 
 	// generate the jwt token
+	// Create a new token object, specifying signing method and the claims
+	// you would like it to contain.
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+		"sub":   userEntity.ID,
+		"email": userEntity.Email,
+		"exp":   time.Now().Add(time.Minute * 2).Unix(),
+	})
 
-	return userEntity, nil
+	// Sign and get the complete encoded token as a string using the secret
+	tokenString, err := token.SignedString([]byte(os.Getenv("JWT_SECRET")))
+	if err != nil {
+		return tokenString, errors.New("could not create token")
+	}
+
+	return tokenString, nil
 }

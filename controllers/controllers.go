@@ -48,7 +48,7 @@ func Login(c *gin.Context) {
 		return
 	}
 
-	_, err = userService.Login(c, req)
+	token, err := userService.Login(c, req)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "something went wrong",
@@ -58,8 +58,9 @@ func Login(c *gin.Context) {
 	}
 
 	c.Writer.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(c.Writer).Encode(models.SignUpRes{
+	_ = json.NewEncoder(c.Writer).Encode(models.LoginRes{
 		Status:  "success",
 		Message: "user logged in successfully",
+		Token:   token,
 	})
 }
