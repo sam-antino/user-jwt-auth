@@ -10,6 +10,7 @@ func CreateUser(req models.SignUpReq) (user entities.Users, err error) {
 	user.Email = req.Email
 	user.Name = req.Name
 	user.Password = req.Password
+	user.MobileNumber = req.MobileNumber
 	err = initializers.Db.Create(&user).Error
 	if err != nil {
 		return entities.Users{}, err

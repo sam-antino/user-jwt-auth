@@ -1,9 +1,10 @@
 package models
 
 type SignUpReq struct {
-	Name     string `json:"name"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	Name         string `json:"name"`
+	MobileNumber string `json:"mobile_number"`
+	Email        string `json:"email"`
+	Password     string `json:"password"`
 }
 
 type SignUpRes struct {
@@ -12,6 +13,7 @@ type SignUpRes struct {
 }
 
 type UserDetailsRes struct {
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	Name         string `json:"name"`
+	MobileNumber string `json:"mobile_number"`
+	Email        string `json:"email"`
 }

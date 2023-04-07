@@ -77,7 +77,8 @@ func (u UserServiceImplementation) UserDetils(ctx *gin.Context, email string) (m
 	}
 
 	return models.UserDetailsRes{
-		Name:  userEntity.Name,
-		Email: userEntity.Email,
+		Name:         userEntity.Name,
+		MobileNumber: userEntity.MobileNumber,
+		Email:        userEntity.Email,
 	}, nil
 }

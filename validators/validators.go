@@ -19,9 +19,10 @@ func ValidateSignUpReq(c *gin.Context) (req models.SignUpReq, err error) {
 	opts := govalidator.Options{
 		Data: &req,
 		Rules: govalidator.MapData{
-			"name":     []string{"required"},
-			"email":    []string{"required", "email"},
-			"password": []string{"required"},
+			"name":          []string{"required"},
+			"mobile_number": []string{"required", "numeric", "len:10"},
+			"email":         []string{"required", "email"},
+			"password":      []string{"required"},
 		},
 	}
 
